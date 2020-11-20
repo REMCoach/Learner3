@@ -52,14 +52,14 @@ const corsOptionsDelegate = (req, res, next) => {
 //   // .get(corsOptionsDelegate, cmsContent.getMasterValues)
 //   .put(corsOptionsDelegate, cmsContent.updateMaster)
 //   .delete(corsOptionsDelegate, cmsContent.deleteMaster);
+router.route("/data/pass").post(cmscontent.A);
+//router.route("/sandbox/test").get(cmscontent.sandboxtest);
 
-router.route("/sandbox/test").get(cmscontent.sandboxtest);
-
-router.route("/add/:tablename").post(cmscontent.addMaster)
-router.route("/email/pass").get(cmscontent.sendmail);
-router
-  .route("/getFullFreedom/getFreedom/:tableName?")
-  .put(cmscontent.getFreedom);
+//router.route("/add/:tablename").post(cmscontent.addMaster)
+//router.route("/email/pass").get(cmscontent.sendmail);
+//router
+  //.route("/getFullFreedom/getFreedom/:tableName?")
+  //.put(cmscontent.getFreedom);
 
 module.exports = router;
 

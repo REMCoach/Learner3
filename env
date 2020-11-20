@@ -16,7 +16,7 @@ DB_TIMEZONE=Asia/Calcutta
 #File Url
 FILEURL='http://localhost:5000'
 # Orgin
-ORGIN='http://localhost:4004', 'https://codesandbox.io/s/https://325yu.csb.app/step1'
+ORGIN='http://localhost:4004', 'https://codesandbox.io/s/https://325yu.csb.app/employee'
 
 
 # Allow ip address

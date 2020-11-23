@@ -52,8 +52,8 @@ db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 app.get('/show1',(req,res)=>{
     console.log("calling show");
  
-  var sq = "select * from task2";
-  // var sq = "select * from task2 ";
+  var sq = "select * from employee";
+  // var sq = "select * from employee ";
   db.query(sq,(err,rows,fields)=>{
    
       if(!err){
@@ -149,7 +149,7 @@ app.post("/uslog",(req,res)=>{
   var email= req.body.email;
   var password = req.body.password;
   console.log(email);
-  db.query('SELECT * FROM task2 WHERE username = (?)',[email], async function (error, results, fields) {
+  db.query('SELECT * FROM employee WHERE username = (?)',[email], async function (error, results, fields) {
     if (error) {
       res.send({
         "code":400,
@@ -252,7 +252,7 @@ app.post('/updateadmin', (req,res)=>{
 
 app.post('/viewuser',(req,res)=>{
   const user = req.body.un;
-  var da = "select * from task2 where username = ?";
+  var da = "select * from employee where username = ?";
   db.query(da,[user],(err,result)=>{
     if(!err){ res.send(result[0]);}
   })
@@ -273,7 +273,7 @@ app.post('/updateuser', (req,res)=>{
   const checked = req.body.checked;
   const user1 = req.body.username
  console.log(user1);
-  var qq = "UPDATE task2 SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
+  var qq = "UPDATE employee SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
   db.query(qq, [firstname,lastname,dob,size,python,react,c,option,uname,password,checked,user1],(err,result)=>{
     if("!err"){res.send("Successfully Updated") ;}
     else{res.send(err)}

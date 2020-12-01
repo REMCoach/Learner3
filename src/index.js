@@ -43,7 +43,7 @@ db.query(function(err) {
     }
 });
 
-app.get("/showtask1",(req,res)=>{
+app.get("/showemployee",(req,res)=>{
  console.log("calling");
   const query1 = "select * from append";
   db.query(query1,(err,result)=>{
@@ -53,7 +53,7 @@ app.get("/showtask1",(req,res)=>{
   });
 
 
-app.post("/submittask1",(req,res)=>{
+app.post("/submitemployee",(req,res)=>{
   const name = req.body.name;
   
  console.log("calling");

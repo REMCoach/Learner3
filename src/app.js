@@ -55,8 +55,8 @@ db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 app.get('/show1',(req,res)=>{
     console.log("calling show");
  
-  var sq = "select * from task2";
-  // var sq = "select * from task2 ";
+  var sq = "select * from employee";
+  // var sq = "select * from emplopyee ";
   db.query(sq,(err,rows,fields)=>{
    
       if(!err){
@@ -118,7 +118,7 @@ app.post("/submit",(req,res)=>{
 
 app.post('/delete',(req,res)=>{
   let uname = req.body.username
-  db.query('DELETE FROM `task2` WHERE username=?',[uname],(err,result)=>{
+  db.query('DELETE FROM `employee` WHERE username=?',[uname],(err,result)=>{
     console.log(err)
   })
   res.send("success")
@@ -279,7 +279,7 @@ app.post('/updateuser', (req,res)=>{
   const checked = req.body.checked;
   const user1 = req.body.username
  console.log(user1);
-  var qq = "UPDATE task2 SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
+  var qq = "UPDATE employee SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
   db.query(qq, [firstname,lastname,dob,size,python,react,c,option,uname,password,checked,user1],(err,result)=>{
     if("!err"){res.send("Successfully Updated") ;}
     else{res.send(err)}

@@ -1,3 +1,4 @@
+  
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -5,7 +6,9 @@ const mysql = require("mysql");
 const fileUpload = require('express-fileupload');
 var fs = require("fs");
 var path = require('path');
+const nodemailer = require('nodemailer');
 const app = express();
+require('dotenv').config();
 // Initialize server
 
 app.use(express.static('Files'));
@@ -52,8 +55,8 @@ db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 app.get('/show1',(req,res)=>{
     console.log("calling show");
  
-  var sq = "select * from employee";
-  // var sq = "select * from employee ";
+  var sq = "select * from task2";
+  // var sq = "select * from task2 ";
   db.query(sq,(err,rows,fields)=>{
    
       if(!err){
@@ -89,8 +92,8 @@ app.post("/submit",(req,res)=>{
   
     
   
-   console.log(uname);
-    const query1 = "insert into task2 (firstname,lastname,dob,size,python,react,c,option1,username,password,checked,file1,file2,file3,crop) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+   console.log(req.body);
+    const query1 = "insert into employee (firstname,lastname,dob,size,python,react,c,option1,username,password,checked,file1,file2,file3,crop) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     db.query(query1,
         [firstname,lastname,dob,size,python,react,c,option,uname,password,checked,file1,file2,file3,file4]
       ,(err,result)=>{
@@ -112,10 +115,13 @@ app.post("/submit",(req,res)=>{
     
     // res.send("success");       
   });
-app.post('/download', (req, res) => {
-  // const file = req.body.file1
-  // console.log(file)
-  res.download('./src/public/1.jpg');
+
+app.post('/delete',(req,res)=>{
+  let uname = req.body.username
+  db.query('DELETE FROM `task2` WHERE username=?',[uname],(err,result)=>{
+    console.log(err)
+  })
+  res.send("success")
 })
 
 app.post('/upload', (req, res) => {
@@ -139,7 +145,7 @@ app.post('/upload', (req, res) => {
         }
         // returing the response with file path and name
         return res.send({name: myFile.name, 
-          path: `http://localhost:4000/public/${myFile.name}`});
+          path: `http://exp.rem.coach:${process.env.PORT}/public/${myFile.name}`});
     });
 })
 
@@ -273,11 +279,75 @@ app.post('/updateuser', (req,res)=>{
   const checked = req.body.checked;
   const user1 = req.body.username
  console.log(user1);
-  var qq = "UPDATE employee SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
+  var qq = "UPDATE task2 SET firstname= ? ,lastname= ?,dob= ?,size= ?,python= ?,react= ?,c= ?,option1= ?,username= ?,password= ?,checked= ? WHERE username= ? ";
   db.query(qq, [firstname,lastname,dob,size,python,react,c,option,uname,password,checked,user1],(err,result)=>{
     if("!err"){res.send("Successfully Updated") ;}
     else{res.send(err)}
     
+  })
+})
+
+app.post('/csv',(req,res)=>{
+  let data = req.body.newuser
+  
+  console.log(req.body)
+  let qq = "insert into employee values ?"
+  db.query(qq,[data],(err,result)=>{
+    if(!err){Console.log("err")}
+  })
+})
+
+app.post('/mailtask2',(req,res)=>{
+  var maila = req.body.mail
+  console.log(maila)
+  db.query("select * from employee" ,(err,result)=>{
+    if(!err){
+      var content = JSON.stringify(result) ;
+    
+  var sender = nodemailer.createTransport(
+    {
+      host: 'localhost',
+      port: process.env.port,
+    service:'gmail',
+    auth:
+    {
+    user:'csecapv4@gmail.com',
+    pass:'ucetcse4'
+    }
+    });
+    
+    var composemail ={
+    from:'csecapv4@gmail.com',
+    to: maila,
+    subject:'TEsting',
+    text: content 
+    };
+    
+    sender.sendMail(composemail,function(error,info){
+    if(error)
+    {
+    console.log(error);
+    res.send({result: 0})
+    }
+    else{
+      res.send({result: 1})
+    console.log("mail sent successsfully"+info.response);
+    }
+    });
+     
+
+    }
+  })
+ 
+  
+  
+})
+
+app.get('/unver',(req,res)=>{
+  var query = 'select username from employee  '
+  db.query(query,(err,re)=>{
+    if(!err){res.send(re);}
+    console.log(re)
   })
 })
 

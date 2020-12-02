@@ -15,8 +15,8 @@ const main = require('./main');
 
 const db = mysql.createPool({
   host: 'localhost',
-  database: 'learner1',
-  user: 'learner1',
+  database: 'learner3',
+  user: 'learner3',
   password: 'learner@123'
 });
 
